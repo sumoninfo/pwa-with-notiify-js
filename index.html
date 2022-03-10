@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -18,19 +18,69 @@
     <meta name="apple-mobile-web-app-status-bar" content="#db4938">
     <meta name="theme-color" content="#db4938">
     <title>Dev'Coffee PWA</title>
-  </head>
-  <body>
-    <main>
-      <nav>
+</head>
+<body>
+<main>
+    <nav>
         <h1>Dev'Coffee</h1>
         <ul>
-          <li>Home</li>
-          <li>About</li>
-          <li>Blog</li>
+            <li>Home</li>
+            <li>About</li>
+            <li>Blog</li>
         </ul>
-      </nav>
-      <div class="container"></div>
-    </main>
-    <script src="js/app.js"></script>
-  </body>
+    </nav>
+    <button id="notifications" type="button">notifications</button>
+    <div class="container"></div>
+</main>
+<script src="js/app.js"></script>
+<script>
+    const button = document.getElementById('notifications');
+    button.addEventListener('click', () => {
+        Notification.requestPermission().then((result) => {
+            if (result === 'granted') {
+                randomNotification();
+            }
+        });
+    })
+    var games = [
+        {
+            slug: 'lost-in-cyberspace',
+            name: 'Lost in Cyberspace',
+            author: 'Zosia and Bartek',
+            twitter: 'bartaz',
+            website: '',
+            github: 'github.com/bartaz/lost-in-cyberspace'
+        },
+        {
+            slug: 'vernissage',
+            name: 'Vernissage',
+            author: 'Platane',
+            twitter: 'platane_',
+            website: 'github.com/Platane',
+            github: 'github.com/Platane/js13k-2017'
+        },
+        // ...
+        {
+            slug: 'emma-3d',
+            name: 'Emma-3D',
+            author: 'Prateek Roushan',
+            twitter: '',
+            website: '',
+            github: 'github.com/coderprateek/Emma-3D'
+        }
+    ];
+    function randomNotification() {
+        const randomItem = Math.floor(Math.random() * games.length);
+        const notifTitle = games[randomItem].name;
+        const notifBody = `Created by ${games[randomItem].author}.`;
+        const notifImg = `data/img/${games[randomItem].slug}.jpg`;
+        const options = {
+            body: notifBody,
+            icon: notifImg,
+        };
+        new Notification(notifTitle, options);
+        setTimeout(randomNotification, 1000);
+    }
+</script>
+</body>
 </html>
